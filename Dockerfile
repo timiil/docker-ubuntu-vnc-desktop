@@ -1,9 +1,11 @@
 FROM ubuntu:16.04
-MAINTAINER Doro Wu <fcwu.tw@gmail.com>
+MAINTAINER timiil@163.com
+
+#ubuntu 16.04 , vnc server, novnc, lxde ==> https://hub.docker.com/r/dorowu/ubuntu-desktop-lxde-vnc/
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN sed -i 's#http://archive.ubuntu.com/#http://tw.archive.ubuntu.com/#' /etc/apt/sources.list
+COPY startup.sh /startup.sh
 
 # built-in packages
 RUN apt-get update \
@@ -12,6 +14,7 @@ RUN apt-get update \
     && curl -SL http://download.opensuse.org/repositories/home:Horst3180/xUbuntu_16.04/Release.key | apt-key add - \
     && add-apt-repository ppa:fcwu-tw/ppa \
     && apt-get update \
+    && apt-get --reinstall install python3 \
     && apt-get install -y --no-install-recommends --allow-unauthenticated \
         supervisor \
         openssh-server pwgen sudo vim-tiny \
@@ -23,6 +26,7 @@ RUN apt-get update \
         language-pack-zh-hant language-pack-gnome-zh-hant firefox-locale-zh-hant libreoffice-l10n-zh-tw \
         nginx \
         python-pip python-dev build-essential \
+        build-essential \
         mesa-utils libgl1-mesa-dri \
         gnome-themes-standard gtk2-engines-pixbuf gtk2-engines-murrine pinta arc-theme \
         dbus-x11 x11-utils \
@@ -37,7 +41,9 @@ ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /bin/
 RUN chmod +x /bin/tini
 
 ADD image /
-RUN pip install setuptools wheel && pip install -r /usr/lib/web/requirements.txt
+RUN pip install setuptools wheel \
+   && pip install -r /usr/lib/web/requirements.txt \
+   && chmod +x /startup.sh
 
 EXPOSE 80
 WORKDIR /root
