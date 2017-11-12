@@ -5,7 +5,7 @@ MAINTAINER timiil@163.com
 
 ENV DEBIAN_FRONTEND noninteractive
 
-COPY startup.sh /startup.sh
+COPY image/startup.sh /startup.sh
 
 # built-in packages
 RUN apt-get update \
