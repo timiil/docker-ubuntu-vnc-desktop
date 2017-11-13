@@ -45,7 +45,7 @@ RUN pip install setuptools wheel \
    && pip install -r /usr/lib/web/requirements.txt \
    && chmod +x /startup.sh
    
-RUN sudo echo "Asia/shanghai" > /etc/timezone; \
+RUN sudo echo "Asia/shanghai" > /etc/timezone \
    && sudo apt-get install fcitx fcitx-config-gtk fcitx-googlepinyin
 
 EXPOSE 80
