@@ -9,6 +9,8 @@ COPY image/startup.sh /startup.sh
 
 # built-in packages
 RUN apt-get update \
+    sudo echo "Asia/shanghai" > /etc/timezone \
+   && sudo apt-get install -y fcitx fcitx-config-gtk fcitx-googlepinyin \
     && apt-get install -y --no-install-recommends software-properties-common curl \
     && sh -c "echo 'deb http://download.opensuse.org/repositories/home:/Horst3180/xUbuntu_16.04/ /' >> /etc/apt/sources.list.d/arc-theme.list" \
     && curl -SL http://download.opensuse.org/repositories/home:Horst3180/xUbuntu_16.04/Release.key | apt-key add - \
@@ -43,11 +45,8 @@ RUN chmod +x /bin/tini
 ADD image /
 RUN pip install setuptools wheel \
    && pip install -r /usr/lib/web/requirements.txt \
-   && chmod +x /startup.sh
-   
-RUN sudo echo "Asia/shanghai" > /etc/timezone \
-   && sudo apt-get update -y \
-   && sudo apt-get install -y fcitx fcitx-config-gtk fcitx-googlepinyin
+   && chmod +x /startup.sh 
+
 
 EXPOSE 80
 WORKDIR /root
