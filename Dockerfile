@@ -46,7 +46,8 @@ RUN pip install setuptools wheel \
    && chmod +x /startup.sh
    
 RUN sudo echo "Asia/shanghai" > /etc/timezone \
-   && sudo apt-get install fcitx fcitx-config-gtk fcitx-googlepinyin
+   && sudo apt-get update -y \
+   && sudo apt-get install -y fcitx fcitx-config-gtk fcitx-googlepinyin
 
 EXPOSE 80
 WORKDIR /root
